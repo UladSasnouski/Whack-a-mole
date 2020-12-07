@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Whack A Mole!</title>
+  <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="load-game1">
+        <div class="authorization">
+            <div class="container">
+                <h1>Hello! Santa needs your help! The Grinch wants to scare the kids who are looking forward to their gifts from Santa! Rather write your name to get on the list of good children and catch the Grinch among the gifts!</h1>
+                <div class="registration">
+                    <input id="yourName" type="text" name="name" value="Your name" size="20" maxlength="20">
+                </div>
+                <div class="stock">
+                    <ul>
+                        <li><p>1.</p><p id="top1"></p><p id="score1"></p></li>
+                        <li><p>2.</p><p id="top2"></p><p id="score2"></p></li>
+                        <li><p>3.</p><p id="top3"></p><p id="score3"></p></li>
+                        <li><p>4.</p><p id="top4"></p><p id="score4"></p></li>
+                        <li><p>5.</p><p id="top5"></p><p id="score5"></p></li>
+                    </ul>
+                </div>
+                <div class="start">
+                    <button onClick="startGo()">Let's go</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="load-game no-loaded">
+        <h2>Save Christmas! <span class="score">0</span></h2>
+        <div class="start-bot">
+            <button onClick="startGame()">Start!</button>
+        </div>
+        
+
+        <div class="game">
+            <div class="hole hole1">
+            <div class="mole"></div>
+            </div>
+            <div class="hole hole2">
+            <div class="mole"></div>
+            </div>
+            <div class="hole hole3">
+            <div class="mole"></div>
+            </div>
+            <div class="hole hole4">
+            <div class="mole"></div>
+            </div>
+            <div class="hole hole5">
+            <div class="mole"></div>
+            </div>
+            <div class="hole hole6">
+            <div class="mole"></div>
+            </div>
+        </div>
+    </div>
+  <script src="./main.js"></script>
+</body>
+</html>
