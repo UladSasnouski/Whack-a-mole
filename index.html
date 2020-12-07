@@ -13,6 +13,7 @@
                 <h1>Hello! Santa needs your help! The Grinch wants to scare the kids who are looking forward to their gifts from Santa! Rather write your name to get on the list of good children and catch the Grinch among the gifts!</h1>
                 <div class="registration">
                     <input id="yourName" type="text" name="name" value="Your name" size="20" maxlength="20">
+                    <input id="newUser" type="checkbox" name="newUser">New player<Br>
                 </div>
                 <div class="stock">
                     <ul>
@@ -34,8 +35,10 @@
         <div class="start-bot">
             <button onClick="startGame()">Start!</button>
         </div>
+        <div class="start-bot">
+            <button onClick="updateLocal()">Completely</button>
+        </div>
         
-
         <div class="game">
             <div class="hole hole1">
             <div class="mole"></div>

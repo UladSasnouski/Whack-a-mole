@@ -6,14 +6,13 @@ const top2 = document.getElementById('top2');
 const top3 = document.getElementById('top3');
 const top4 = document.getElementById('top4');
 const top5 = document.getElementById('top5');
+var newUser = document.getElementById('newUser');
 
 const score1 = document.getElementById('score1');
 const score2 = document.getElementById('score2');
 const score3 = document.getElementById('score3');
 const score4 = document.getElementById('score4');
 const score5 = document.getElementById('score5');
-
-var time;
 
 var localName = '';
 var localScore = '';
@@ -123,7 +122,6 @@ function startGame() {
     score = 0;
     peep();
     setTimeout(() => timeUp = true, 10000);
-    time = setTimeout ( updateLocal(), 12000);
 }
 
 function startGo() {
@@ -144,10 +142,20 @@ function bonk(e) {
 }
 
 function updateLocal() {
-    if (timeUp === false) {
+    if (newUser.checked === true) {
         for (var i = 0; i <= user.length; i++) {
             if ( i === user.length) {
                 user.push({name: localName, score: localScore, id: i++});
+            }
+        }
+        localStorage.setItem('storedUsers', JSON.stringify(user));
+    } else if (newUser.checked === false) {
+        for (var i = 0; i <= user.length; i++) {
+            if (user[i].name == localName) {
+                user[i] = {
+                    name: localName,
+                    score: localScore
+                }
             }
         }
         localStorage.setItem('storedUsers', JSON.stringify(user));
