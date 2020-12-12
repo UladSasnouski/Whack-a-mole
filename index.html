@@ -7,13 +7,17 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <audio class="audio" loop autoplay>
+        <source src="Christmas.mp3" />
+    </audio>
     <div class="load-game1">
         <div class="authorization">
             <div class="container">
                 <h1>Hello! Santa needs your help! The Grinch wants to scare the kids who are looking forward to their gifts from Santa! Rather write your name to get on the list of good children and catch the Grinch among the gifts!</h1>
                 <div class="registration">
                     <input id="yourName" type="text" name="name" value="Your name" size="20" maxlength="20">
-                    <input id="newUser" type="checkbox" name="newUser">New player<Br>
+                    <input id="newUser" type="checkbox" name="newUser">
+                    <label for="newUser">New player</label>
                 </div>
                 <div class="stock">
                     <ul>
@@ -33,10 +37,13 @@
     <div class="load-game no-loaded">
         <h2>Save Christmas! <span class="score">0</span></h2>
         <div class="start-bot">
-            <button onClick="startGame()">Start!</button>
+            <button id="start-bottom" onClick="startGame()">Start!</button>
         </div>
         <div class="start-bot">
-            <button onClick="updateLocal()">Completely</button>
+            <button id="update-bottom" class="no-loaded" onClick="startGameNext()">Nex Level</button>
+        </div>
+        <div class="start-bot">
+            <button id="end-bottom" class="no-loaded" onClick="endGame()">End Game</button>
         </div>
         
         <div class="game">

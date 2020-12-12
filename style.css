@@ -173,4 +173,31 @@ p {
 }
 .registration {
     margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#newUser {
+  display: none;
+}
+
+label { 
+  cursor: pointer;
+  margin: 4px 2px 4px 2px;
+  padding: 5px 15px 5px 15px;
+  transition: 0.3s;
+  font-size: 24px;
+  color: azure;
+  border: transparent 2px solid;
+  border-radius: 15px;
+}
+
+label:hover {
+  background: rgba(255,255,255,0.4);
+}
+
+input:checked ~ label {
+  background: rgba(231, 179, 36, 0.4);
 }

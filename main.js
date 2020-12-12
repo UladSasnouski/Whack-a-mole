@@ -7,6 +7,7 @@ const top3 = document.getElementById('top3');
 const top4 = document.getElementById('top4');
 const top5 = document.getElementById('top5');
 var newUser = document.getElementById('newUser');
+const audio = document.querySelector(".audio");
 
 const score1 = document.getElementById('score1');
 const score2 = document.getElementById('score2');
@@ -16,6 +17,8 @@ const score5 = document.getElementById('score5');
 
 var localName = '';
 var localScore = '';
+
+
 
 var maxFirst = 0;
 var maxSecond = 0;
@@ -32,14 +35,22 @@ var maxFifthName = '-----';
 let lastHole;
 let timeUp = false;
 let score = 0;
+var gameTime = 10000;
+var minTime = 200;
+var maxTime = 1000;
+
 var user = [];
-user[0] = {};
+user[0] = {
+    name: '',
+    score: ''
+};
+
+audio.play();
 
 function stats() {
     if (localStorage.getItem('storedUsers')) {
         user = JSON.parse(localStorage.getItem('storedUsers'));
     }
-    console.log (user);
 
     for(var i = 0; i < user.length; i++) {
         if(user[i].score > maxFirst) {
@@ -107,7 +118,7 @@ function randomHole(holes) {
 }
 
 function peep() {
-    const time = randomTime(200, 1000);
+    const time = randomTime(minTime, maxTime);
     const hole = randomHole(holes);
     hole.classList.add('up');
     setTimeout(() => {
@@ -117,11 +128,53 @@ function peep() {
 }
 
 function startGame() {
+    const start = document.getElementById('start-bottom');
+    const update = document.getElementById('update-bottom');
+    const endGame = document.getElementById('end-bottom');
+    start.classList.add("no-loaded");
     scoreBoard.textContent = 0;
     timeUp = false;
     score = 0;
     peep();
-    setTimeout(() => timeUp = true, 10000);
+    setTimeout( function() {
+        update.classList.remove("no-loaded");
+        endGame.classList.remove("no-loaded");
+        timeUp = true;
+        updateLocal();
+    }, gameTime);
+}
+
+function startGameNext() {
+    const update = document.getElementById('update-bottom');
+    const endGame = document.getElementById('end-bottom');
+    endGame.classList.add("no-loaded");
+    update.classList.add("no-loaded");
+    scoreBoard.textContent = score;
+    timeUp = false;
+    gameTime = 20000;
+    minTime = 300;
+    maxTime = 700;
+    peep();
+    setTimeout( function() {
+        endGame.classList.remove("no-loaded");
+        timeUp = true;
+        updateLocal();
+    }, gameTime);
+}
+
+function endGame () {
+    const start = document.getElementById('start-bottom');
+    const update = document.getElementById('update-bottom');
+    const endGame = document.getElementById('end-bottom');
+    start.classList.remove("no-loaded");
+    update.classList.add("no-loaded");
+    endGame.classList.add("no-loaded");
+    const authorization = document.querySelector('.load-game1');
+    const load = document.querySelector('.load-game');
+    authorization.classList.remove("no-loaded");
+    load.classList.add("no-loaded");
+    updateLocal();
+    stats()
 }
 
 function startGo() {
@@ -130,7 +183,6 @@ function startGo() {
     authorization.classList.add("no-loaded");
     load.classList.remove("no-loaded");
     localName = (document.getElementById ('yourName')).value;
-    console.log(localName);
 }
 
 function bonk(e) {
@@ -151,11 +203,8 @@ function updateLocal() {
         localStorage.setItem('storedUsers', JSON.stringify(user));
     } else if (newUser.checked === false) {
         for (var i = 0; i <= user.length; i++) {
-            if (user[i].name == localName) {
-                user[i] = {
-                    name: localName,
-                    score: localScore
-                }
+            if (user[i].name === localName) {
+                user[i].score = localScore;
             }
         }
         localStorage.setItem('storedUsers', JSON.stringify(user));
@@ -164,3 +213,4 @@ function updateLocal() {
 
 moles.forEach(mole => mole.addEventListener('click', bonk));
 window.addEventListener('load', stats);
+
