@@ -20,6 +20,8 @@ var localScore = '';
 var scoreMin = 0;
 var nameMin = '-----';
 
+var killSanta = false;
+
 
 let lastHole;
 let timeUp = false;
@@ -51,35 +53,35 @@ function stats() {
         return 0;
       });
     
-    if (user[0].score > 0) {
+    if (user[0].score > 0 && typeof user[0].score != "undefined") {
         score1.textContent = user[0].score;
         top1.textContent = user[0].name;
     } else {
         score1.textContent = scoreMin;
         top1.textContent = nameMin;
     }
-    if (user[1].score > 0) {
+    if (user[1].score > 0  && typeof user[1].score != "undefined") {
         score2.textContent = user[1].score;
         top2.textContent = user[1].name;
     } else {
         score2.textContent = scoreMin;
         top2.textContent = nameMin;
     }
-    if (user[2].score > 0) {
+    if (user[2].score > 0  && typeof user[2].score != "undefined") {
         score3.textContent = user[2].score;
         top3.textContent = user[2].name;
     } else {
         score3.textContent = scoreMin;
         top3.textContent = nameMin;
     }
-    if (user[3].score > 0) {
+    if (user[3].score > 0  && typeof user[3].score != "undefined") {
         score4.textContent = user[3].score;
         top4.textContent = user[3].name;
     } else {
         score4.textContent = scoreMin;
         top4.textContent = nameMin;
     }
-    if (user[4].score > 0) {
+    if (user[4].score > 0  && typeof user[4].score != "undefined") {
         score5.textContent = user[4].score;
         top5.textContent = user[4].name;
     } else {
@@ -104,23 +106,27 @@ function randomHole(holes) {
     return hole;
 }
 
+function randomImages () {
+    const image = Math.floor(Math.random() * 100);
+    if ( image <= 20) {
+            document.querySelectorAll('.mole').forEach(function(elem){elem.style.background = "url('santa-claus.svg') bottom center no-repeat"})
+            killSanta = true;
+            console.log(killSanta);
+    } else if ( image > 20) {
+            document.querySelectorAll('.mole').forEach(function(elem){elem.style.background = "url('mole.svg') bottom center no-repeat"})
+            killSanta = false;
+            console.log(killSanta);
+    }
+}
+
 function peep() {
     const time = randomTime(minTime, maxTime);
     const hole = randomHole(holes);
     hole.classList.add('up');
+    randomImages ();
     setTimeout(() => {
       hole.classList.remove('up');
       if (!timeUp) peep();
-      const image = Math.floor(Math.random() * 100);
-        if ( image <= 15) {
-            document.querySelectorAll('.mole').forEach(function(elem){
-                elem.style.background = "url('santa-claus.svg')"
-        })
-        } else if ( image > 30) {
-            document.querySelectorAll('.mole').forEach(function(elem){
-                elem.style.background = "url('mole.svg')"
-        })
-        }
     }, time);
 }
 
@@ -132,6 +138,7 @@ function startGame() {
     scoreBoard.textContent = 0;
     timeUp = false;
     score = 0;
+    randomImages ();
     peep();
     setTimeout( function() {
         update.classList.remove("no-loaded");
@@ -182,10 +189,18 @@ function startGo() {
 
 function bonk(e) {
     if(!e.isTrusted) return; // cheater!
-    score++;
-    this.parentNode.classList.remove('up');
-    scoreBoard.textContent = score;
-    localScore = score;
+    if (killSanta === false) {
+        score++;
+        this.parentNode.classList.remove('up');
+        scoreBoard.textContent = score;
+        localScore = score;
+    } else if (killSanta === true) {
+        score--;
+        this.parentNode.classList.remove('up');
+        scoreBoard.textContent = score;
+        localScore = score;
+    }
+    
 }
 
 function updateLocal() {
