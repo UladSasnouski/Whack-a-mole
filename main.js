@@ -6,7 +6,6 @@ const top2 = document.getElementById('top2');
 const top3 = document.getElementById('top3');
 const top4 = document.getElementById('top4');
 const top5 = document.getElementById('top5');
-var newUser = document.getElementById('newUser');
 const audio = document.querySelector(".audio");
 
 const score1 = document.getElementById('score1');
@@ -18,19 +17,9 @@ const score5 = document.getElementById('score5');
 var localName = '';
 var localScore = '';
 
+var scoreMin = 0;
+var nameMin = '-----';
 
-
-var maxFirst = 0;
-var maxSecond = 0;
-var maxThird = 0;
-var maxFourth = 0;
-var maxFifth = 0;
-
-var maxFirstName = '-----';
-var maxSecondName = '-----';
-var maxThirdName = '-----';
-var maxFourthName = '-----';
-var maxFifthName = '-----';
 
 let lastHole;
 let timeUp = false;
@@ -42,8 +31,9 @@ var maxTime = 1000;
 var user = [];
 user[0] = {
     name: '',
-    score: ''
+    score: '0'
 };
+
 
 audio.play();
 
@@ -51,54 +41,51 @@ function stats() {
     if (localStorage.getItem('storedUsers')) {
         user = JSON.parse(localStorage.getItem('storedUsers'));
     }
-
-    for(var i = 0; i < user.length; i++) {
-        if(user[i].score > maxFirst) {
-            maxFirst = user[i].score;
-            maxFirstName = user[i].name;
-            console.log (maxFirst);
+    user.sort( function (a, b) {
+        if (a.score > b.score) {
+          return -1;
         }
-    }
-    for(var i = 0; i < user.length; i++) {
-        if (user[i].score > maxSecond && user[i].score < maxFirst) {
-            maxSecond = user[i].score;
-            maxSecondName = user[i].name;
-            console.log (maxSecond);
+        if (a.score < b.score) {
+          return 1;
         }
+        return 0;
+      });
+    
+    if (user[0].score > 0) {
+        score1.textContent = user[0].score;
+        top1.textContent = user[0].name;
+    } else {
+        score1.textContent = scoreMin;
+        top1.textContent = nameMin;
     }
-    for(var i = 0; i < user.length; i++) {
-        if (user[i].score > maxThird && user[i].score < maxSecond) {
-            maxThird = user[i].score;
-            maxThirdName = user[i].name;
-            console.log (maxThird);
-        }
+    if (user[1].score > 0) {
+        score2.textContent = user[1].score;
+        top2.textContent = user[1].name;
+    } else {
+        score2.textContent = scoreMin;
+        top2.textContent = nameMin;
     }
-    for(var i = 0; i < user.length; i++) {
-        if (user[i].score > maxFourth && user[i].score < maxThird) {
-            maxFourth = user[i].score;
-            maxFourthName = user[i].name;
-            console.log (maxFourth);
-        }
+    if (user[2].score > 0) {
+        score3.textContent = user[2].score;
+        top3.textContent = user[2].name;
+    } else {
+        score3.textContent = scoreMin;
+        top3.textContent = nameMin;
     }
-    for(var i = 0; i < user.length; i++) {
-        if (user[i].score > maxFifth && user[i].score < maxFourth) {
-            maxFifth = user[i].score;
-            maxFifthName = user[i].name;
-            console.log (maxFifth);
-        }
+    if (user[3].score > 0) {
+        score4.textContent = user[3].score;
+        top4.textContent = user[3].name;
+    } else {
+        score4.textContent = scoreMin;
+        top4.textContent = nameMin;
     }
-
-    score1.textContent = maxFirst;
-    score2.textContent = maxSecond;
-    score3.textContent = maxThird;
-    score4.textContent = maxFourth;
-    score5.textContent = maxFifth;
-
-    top1.textContent = maxFirstName;
-    top2.textContent = maxSecondName;
-    top3.textContent = maxThirdName;
-    top4.textContent = maxFourthName;
-    top5.textContent = maxFifthName;
+    if (user[4].score > 0) {
+        score5.textContent = user[4].score;
+        top5.textContent = user[4].name;
+    } else {
+        score5.textContent = scoreMin;
+        top5.textContent = nameMin;
+    }
 }
 
 
@@ -124,6 +111,16 @@ function peep() {
     setTimeout(() => {
       hole.classList.remove('up');
       if (!timeUp) peep();
+      const image = Math.floor(Math.random() * 100);
+        if ( image <= 15) {
+            document.querySelectorAll('.mole').forEach(function(elem){
+                elem.style.background = "url('santa-claus.svg')"
+        })
+        } else if ( image > 30) {
+            document.querySelectorAll('.mole').forEach(function(elem){
+                elem.style.background = "url('mole.svg')"
+        })
+        }
     }, time);
 }
 
@@ -140,7 +137,6 @@ function startGame() {
         update.classList.remove("no-loaded");
         endGame.classList.remove("no-loaded");
         timeUp = true;
-        updateLocal();
     }, gameTime);
 }
 
@@ -158,7 +154,6 @@ function startGameNext() {
     setTimeout( function() {
         endGame.classList.remove("no-loaded");
         timeUp = true;
-        updateLocal();
     }, gameTime);
 }
 
@@ -194,22 +189,26 @@ function bonk(e) {
 }
 
 function updateLocal() {
-    if (newUser.checked === true) {
-        for (var i = 0; i <= user.length; i++) {
-            if ( i === user.length) {
-                user.push({name: localName, score: localScore, id: i++});
-            }
+    if (localName != 'Your name'){
+        var block = true;
+        for (var i = 0; i < user.length; i++) {
+            if ( user[i].name === localName) {
+                if (user[i].score < localScore) {
+                    user[i].score = localScore;
+                }
+                block = false;
+                break;
+            } 
+        }
+        if ( block === true) {
+            user.push({name: localName, score: localScore});
         }
         localStorage.setItem('storedUsers', JSON.stringify(user));
-    } else if (newUser.checked === false) {
-        for (var i = 0; i <= user.length; i++) {
-            if (user[i].name === localName) {
-                user[i].score = localScore;
-            }
-        }
-        localStorage.setItem('storedUsers', JSON.stringify(user));
+    } else {
+        return false;
     }
 }
+
 
 moles.forEach(mole => mole.addEventListener('click', bonk));
 window.addEventListener('load', stats);
