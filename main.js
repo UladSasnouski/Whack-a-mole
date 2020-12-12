@@ -1,18 +1,10 @@
 const holes = document.querySelectorAll('.hole');
 const scoreBoard = document.querySelector('.score');
 const moles = document.querySelectorAll('.mole');
-const top1 = document.getElementById('top1');
-const top2 = document.getElementById('top2');
-const top3 = document.getElementById('top3');
-const top4 = document.getElementById('top4');
-const top5 = document.getElementById('top5');
 const audio = document.querySelector(".audio");
 
-const score1 = document.getElementById('score1');
-const score2 = document.getElementById('score2');
-const score3 = document.getElementById('score3');
-const score4 = document.getElementById('score4');
-const score5 = document.getElementById('score5');
+const scoreTable = document.querySelectorAll(".score-table");
+const topTable = document.querySelectorAll(".top");
 
 var localName = '';
 var localScore = '';
@@ -53,40 +45,14 @@ function stats() {
         return 0;
       });
     
-    if (user[0].score > 0 && typeof user[0].score != "undefined") {
-        score1.textContent = user[0].score;
-        top1.textContent = user[0].name;
-    } else {
-        score1.textContent = scoreMin;
-        top1.textContent = nameMin;
-    }
-    if (user[1].score > 0  && typeof user[1].score != "undefined") {
-        score2.textContent = user[1].score;
-        top2.textContent = user[1].name;
-    } else {
-        score2.textContent = scoreMin;
-        top2.textContent = nameMin;
-    }
-    if (user[2].score > 0  && typeof user[2].score != "undefined") {
-        score3.textContent = user[2].score;
-        top3.textContent = user[2].name;
-    } else {
-        score3.textContent = scoreMin;
-        top3.textContent = nameMin;
-    }
-    if (user[3].score > 0  && typeof user[3].score != "undefined") {
-        score4.textContent = user[3].score;
-        top4.textContent = user[3].name;
-    } else {
-        score4.textContent = scoreMin;
-        top4.textContent = nameMin;
-    }
-    if (user[4].score > 0  && typeof user[4].score != "undefined") {
-        score5.textContent = user[4].score;
-        top5.textContent = user[4].name;
-    } else {
-        score5.textContent = scoreMin;
-        top5.textContent = nameMin;
+    for (var i = 0; i < 5; i++) {
+        if (user[i] && user[i].score > 0) {
+            scoreTable[i].textContent = user[i].score;
+            topTable[i].textContent = user[i].name;
+        } else {
+            scoreTable[i].textContent = scoreMin;
+            topTable[i].textContent = nameMin;
+        }
     }
 }
 
@@ -185,17 +151,18 @@ function startGo() {
     authorization.classList.add("no-loaded");
     load.classList.remove("no-loaded");
     localName = (document.getElementById ('yourName')).value;
+    audio.play();
 }
 
 function bonk(e) {
     if(!e.isTrusted) return; // cheater!
     if (killSanta === false) {
-        score++;
+        ++score;
         this.parentNode.classList.remove('up');
         scoreBoard.textContent = score;
         localScore = score;
     } else if (killSanta === true) {
-        score--;
+        --score;
         this.parentNode.classList.remove('up');
         scoreBoard.textContent = score;
         localScore = score;
@@ -204,7 +171,7 @@ function bonk(e) {
 }
 
 function updateLocal() {
-    if (localName != 'Your name'){
+    if (localName != 'Your name' && localName != ''){
         var block = true;
         for (var i = 0; i < user.length; i++) {
             if ( user[i].name === localName) {
