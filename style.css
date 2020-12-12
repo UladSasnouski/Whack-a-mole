@@ -27,6 +27,7 @@ html {
     font-size: 10rem;
     line-height: 1;
     margin-bottom: 0;
+    color: azure;
   }
   
   .score {
@@ -34,6 +35,7 @@ html {
     padding: 0 3rem;
     line-height: 1;
     border-radius: 1rem;
+    color: azure;
   }
   
   .game {
