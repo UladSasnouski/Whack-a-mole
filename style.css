@@ -75,6 +75,7 @@ html {
     height: 100%;
     left: -20px;
     transition:all 0.4s;
+    z-index: 1;
   }
   
   .hole.up .mole {
@@ -101,13 +102,16 @@ html {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    z-index: 1;
   }
 
 input[type="text"] {
     padding: 4px 6px;
+    z-index: 1;
 }
 input[type="text"]:focus {
     box-shadow: 0 0 20px rgba(236, 25, 25, 0.5);
+    z-index: 1;
 }
 input[type=text] {
     border:none;
@@ -121,6 +125,7 @@ input[type=text] {
     background: rgba(255,255,255,0.4);
     outline:none;
     font-family: 'Amatic SC', cursive;
+    z-index: 1;
 }
 
 li {
@@ -142,6 +147,11 @@ p {
     outline-color: none !important;
 } /* Убрать обводку у кнопок после нажатия */
 
+.start,
+.load-game {
+  z-index: 1;
+}
+
 .start button {
     border: none;
     background: rgba(231, 179, 36, 0.4);
@@ -153,6 +163,7 @@ p {
     margin: 50px 30px 0px 30px;
     border-radius: 20px;
     font-family: 'Amatic SC', cursive;
+    z-index: 1;
 }
 
 .load-game button {
@@ -166,6 +177,7 @@ p {
     margin: 50px 30px 0px 30px;
     border-radius: 20px;
     font-family: 'Amatic SC', cursive;
+    z-index: 1;
 }
 
 .authorization {
@@ -186,21 +198,49 @@ p {
   display: none;
 }
 
-label { 
-  cursor: pointer;
-  margin: 4px 2px 4px 2px;
-  padding: 5px 15px 5px 15px;
-  transition: 0.3s;
-  font-size: 24px;
-  color: azure;
-  border: transparent 2px solid;
-  border-radius: 15px;
-}
-
-label:hover {
-  background: rgba(255,255,255,0.4);
-}
-
-input:checked ~ label {
-  background: rgba(231, 179, 36, 0.4);
+canvas { 
+  display: block; 
+  vertical-align: bottom; 
+} 
+#particles-js { 
+  position:absolute; 
+  top: 0;
+  width: 100%; 
+  height: 100%;
+  background-image: url(""); 
+  background-repeat: no-repeat; 
+  background-size: cover; 
+  background-position: 50% 50%; 
+  z-index: 0;
+} 
+.count-particles { 
+  background: #000022; 
+  position: absolute; 
+  top: 48px; 
+  left: 0; 
+  width: 80px; 
+  color: #13E8E9; 
+  font-size: .8em; 
+  text-align: left; 
+  text-indent: 4px; 
+  line-height: 14px; 
+  padding-bottom: 2px; 
+  font-family: Helvetica, Arial, sans-serif; 
+  font-weight: bold; 
+} 
+.js-count-particles { 
+  font-size: 1.1em; 
+} 
+#stats, 
+.count-particles { 
+  -webkit-user-select: none; 
+  margin-top: 5px; 
+  margin-left: 5px; 
+} 
+#stats { 
+  border-radius: 3px 3px 0 0; 
+  overflow: hidden; 
+} 
+.count-particles { 
+  border-radius: 0 0 3px 3px; 
 }
