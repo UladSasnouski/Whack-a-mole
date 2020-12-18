@@ -203,8 +203,8 @@ window.addEventListener('load', stats);
 particlesJS("particles-js", {
     "particles":{
         "number":{
-            "value":400,"density":{
-                "enable":true,"value_area":800
+            "value":70,"density":{
+                "enable":false,"value_area":800
             }
         },"color":{
             "value":"#fff"
